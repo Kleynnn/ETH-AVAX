@@ -1,35 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract GcashPayment {
-    address public accountUser;  // Setting 'accountUser' as the owner
-    mapping(address => uint256) public userBalance;
-    uint256 public constant maxBalance = 10000;
+contract studentInfo {
 
-    constructor() {
-        accountUser = msg.sender;  // Initializing 'accountUser' as the contract deployer
+    
+    function studentId(uint256 _idNumber) public payable {
+        require(_idNumber == 93800, "Oops, wrong Id number.");
     }
 
-    function deposit(uint256 _amount) public payable {
-        require(_amount > 0, "Value must be greater than 0");  // Ensuring our deposit amount to be greater than 0
-        require(userBalance[msg.sender] + _amount <= maxBalance, "Amount is bigger than the maximun balance");
-        userBalance[msg.sender] += _amount;
-        assert(userBalance[msg.sender] <= maxBalance); // Asserting the account balance after or if the deposited amount exceeds the maximum amount
+    function gradeLevel(uint256 _level) public pure {
+        if(_level != 3){
+            revert("Oops, wrong year level.");
+        }
     }
 
-    function withdraw(uint256 _amount) public {
-        require(_amount > 0, "Withdrawal amount should be greater than 0");  // Ensuring our withdrawal amount to be greater than 0
-        require(userBalance[msg.sender] >= _amount, "You have insufficient balance");  // Checking if the sender has enough balance
-
-        userBalance[msg.sender] -= _amount;  // Updating the balance mapping for the sender
-
-        require(payable(msg.sender).send(_amount), "Withdrawal failed");
-    }
-
-    function checkBalance(address _accountUser) public view returns(uint256) {
-        require(userBalance[_accountUser] > 0, "User has no Balance");
-        return userBalance[_accountUser];
+    function studentAge(uint256 _age) public payable  {
+        assert(_age == 20);
     }
 
 
+    
 }
